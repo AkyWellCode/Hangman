@@ -1,9 +1,6 @@
 var wordGlobal, lives = 5, correctLetters = 0;
-
 function addWordAndKeyboard() {
-  var word = $('#wordAdd').val();
-  var wordLength = word.length;
-  var numberOfLetters = 26, number = 97, idLetters = 0;
+  var word = $('#wordAdd').val(), wordLength = word.length, numberOfLetters = 26, number = 97, idLetters = 0;
   wordGlobal = word;
   while (wordLength > 0) { /* Assign one box for every letter of the word */
     --wordLength;
@@ -27,12 +24,12 @@ function addWordAndKeyboard() {
 }
 
 function enterLetters(clicked_id) {
-  var letter = clicked_id, wordSplit = wordGlobal.split(''), wordSplitLength = wordGlobal.length, wrongLetter = 0;
+  var wordSplit = wordGlobal.split(''), wordSplitLength = wordGlobal.length, wrongLetter = 0;
   for (var i = 0; i <= wordSplitLength; ++i) { /* If we click on a correct letter -> we add the letter on the right assigned box */
-    if (wordSplit[i] == letter) {
+    if (wordSplit[i] == clicked_id) {
       ++correctLetters;
       wrongLetter = 1;
-      $('#'+ i +'').html(letter);
+      $('#'+ i +'').html(clicked_id);
     }
   }
   if (correctLetters == wordSplitLength) { /* Win alert + restart button */

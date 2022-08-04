@@ -1,0 +1,30 @@
+.center {
+  text-align: center;
+}
+
+input[type=enterWord] {
+  width: 200px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('https://img.icons8.com/external-basicons-line-edtgraphics/30/000000/external-Enter-arrows-basicons-line-edtgraphics.png');
+  background-position: 7px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=enterWord]:focus {
+  width: 25%;
+}
+
+.space {
+  margin-top: 10px;
+}
+
+.spaceKeyboard {
+  margin-top: 30px;
+  margin-left: 17px;
+}

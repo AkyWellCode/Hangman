@@ -1,58 +1,65 @@
 var wordGlobal, lives = 5, correctLetters = 0;
+
 function addWordAndKeyboard() {
-  var word = $('#wordAdd').val(), wordLength = word.length, numberOfLetters = 26, number = 97, idLetters = 0;
+  var word = document.getElementById("wordAdd").value, wordToGuess = document.getElementById("word"), addKeyboard = document.getElementById("addKeyboard"), livesStatus = document.getElementById("livesStatus"),  number = 97, idLetters = 0;
+  const wordLength = word.length, numberOfLetters = 26;
   wordGlobal = word;
-  while (wordLength > 0) { /* Assign one box for every letter of the word */
-    --wordLength;
-    $('#addWord').append(`
-      <button type="button" class="btn btn-dark btn-lg" id="`+ idLetters +`"></button>
-      `)
+  for (let i = 0; i < wordLength; ++i) { /* word buttons */
+    var button = document.createElement("button");
+    button.id = idLetters;
+    button.innerHTML = '';
+    button.className = "btn btn-dark wordSpace";
+    wordToGuess.append(button);
     ++idLetters;
   }
-  while (numberOfLetters >= 1) { /* Add Keyboard */
-    var letter = String.fromCharCode(number)
-    --numberOfLetters;
-    $('#addKeyboard').append(`
-    <button type="button" class="btn btn-outline-secondary" id="`+ letter +`" onClick="return enterLetters(this.id)">`+ letter +`</button>
-      `)
+  for (let i = 0; i < numberOfLetters; ++i) { /* Add Keyboard */
+    var letter = String.fromCharCode(number);
+    var button = document.createElement("button");
+    button.id = letter;
+    button.innerHTML = letter;
+    button.className = "btn btn-outline-secondary wordSpace";
+    button.onclick = function() {enterLetters(this.id)};
+    addKeyboard.append(button);
     ++number;
   }
-  $('#livesStatus').append(`
-    <p style="color:green; font-size: 35px;" id="livesLeft"> You have `+ lives +` more lives</p>
-  `); /* Add the status of lives text */
+  livesStatus.style.color = "green";
+  livesStatus.style.fontSize = "x-large";
+  livesStatus.innerText = "You have " + lives + " more lives"; /* Add the status of lives text */
   return false;
 }
 
 function enterLetters(clicked_id) {
-  var wordSplit = wordGlobal.split(''), wordSplitLength = wordGlobal.length, wrongLetter = 0;
-  for (var i = 0; i <= wordSplitLength; ++i) { /* If we click on a correct letter -> we add the letter on the right assigned box */
+  var wordSplit = wordGlobal.split(''), wordSplitLength = wordGlobal.length, wrongLetter = 0, restart = document.getElementById("restart"), restartButton = document.createElement("button");;
+  for (let i = 0; i <= wordSplitLength; ++i) { /* If we click on a correct letter -> we add the letter on the right assigned box */
     if (wordSplit[i] == clicked_id) {
       ++correctLetters;
       wrongLetter = 1;
-      $('#'+ i +'').html(clicked_id);
+      var changeName = document.getElementById(i);
+      changeName.innerText = clicked_id;
     }
   }
-  if (correctLetters == wordSplitLength) { /* Win alert + restart button */
+  if (correctLetters === wordSplitLength) { /* Win alert + restart button */
     alert("You won the game!!!");
-    $('#restart').append(`
-      <button type="button" class="btn btn-outline-warning btn-lg" onClick="return restart()">Restart game</button>
-    `)
+    restartButton.innerHTML = "Restart Game";
+    restartButton.className = "btn btn-outline-warning btn-lg";
+    restartButton.onclick = () => {
+       window.location.reload();
+    }
+    restart.append(restartButton);
   }
-  if (wrongLetter == 0 && lives > 1) { /* Display how many lives do we have (we don't lost yet) */
+  if (wrongLetter === 0 && lives > 1) { /* Display how many lives do we have (we don't lost yet) */
     --lives;
-    $('#livesLeft').remove();
-    $('#livesStatus').append(`
-      <p style="color:green; font-size: 35px;" id="livesLeft"> You have `+ lives +` more lives</p>
-    `);
-  } else if (wrongLetter == 0 && lives == 1) { /* Game lost alert + restart button */
+    document.getElementById("livesStatus").innerHTML = "You have " + lives + " more lives";
+  } else if (wrongLetter === 0 && lives === 1) { /* Game lost alert + restart button */
     alert("You lost the game!!!");
-    $('#restart').append(`
-      <button type="button" class="btn btn-outline-warning btn-lg" onClick="return restart()">Restart game</button>
-      `)
+    --lives;
+    document.getElementById("livesStatus").innerHTML = "You have " + lives + " more lives";
+    restartButton.innerHTML = "Restart Game";
+    restartButton.className = "btn btn-outline-warning btn-lg";
+    restartButton.onclick = () => {
+       window.location.reload();
+    }
+    restart.append(restartButton);
   }
   return false;
-}
-
-function restart() { /* Refresh page on button click */
-  window.location.reload();
 }

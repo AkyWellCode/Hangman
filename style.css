@@ -28,3 +28,7 @@ input[type=enterWord]:focus {
   margin-top: 30px;
   margin-left: 17px;
 }
+
+.wordSpace {
+  margin-left: 2px;
+}
